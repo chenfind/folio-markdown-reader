@@ -45,6 +45,9 @@ Android 使用系统文件选择器授权。文档包含相对图片或其它文
 
 企业仓库需要可访问的网络和系统信任的证书；组织可能要求审批或 SSO 授权。令牌保存到 Windows 凭据管理器或由 Android Keystore 加密保存，不写入普通阅读配置和仓库地址。Folio 没有账号服务、统计上报或同步后端。
 
+
+[GitHub token guide](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens) · [GitLab token guide](https://docs.gitlab.com/user/profile/personal_access_tokens/)
+
 ## 自己构建
 
 需要 Node.js 22.18+ / 新版 LTS、npm 和新版稳定 Rust。完整原生依赖参考 [Tauri 前置环境](https://v2.tauri.app/start/prerequisites/)。

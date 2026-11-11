@@ -47,6 +47,9 @@ Public repositories usually need no token. For private repositories:
 
 Tokens are stored in Windows Credential Manager or encrypted using Android Keystore. They are not saved in document settings or repository URLs. Folio has no account service, analytics or sync backend.
 
+
+[GitHub token guide](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens) · [GitLab token guide](https://docs.gitlab.com/user/profile/personal_access_tokens/)
+
 SSH, Git LFS object downloading, submodule recursion, background clone and in-app Git editing/push are not supported.
 
 ## Build from source
