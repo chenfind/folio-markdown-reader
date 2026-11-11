@@ -1,0 +1,23 @@
+README.zh-CN.md
+  s_b16dc120361d86::t_241e4986738071 48-50
+README.md
+  s_b16dc120361d86::t_241e4986738071 50-52
+.cargo/config.toml
+  s_b16dc120361d86::t_6cae586b451b38 2,5
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "f1692cddc7660d0d2731edbdf398c39623dce15b",
+  "prompts": {},
+  "sessions": {
+    "s_b16dc120361d86": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1bf6c-18d7-7280-8109-bc463b33ea2d",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "chenfind <75835354+chenfind@users.noreply.github.com>"
+    }
+  }
+}
