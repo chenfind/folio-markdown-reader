@@ -1,0 +1,37 @@
+[package]
+name = "folio-reader"
+version = "0.2.0"
+description = "A Markdown reader for local folders and Git repositories"
+edition = "2024"
+rust-version = "1.90"
+
+[lib]
+name = "app_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-dialog = "2"
+tauri-plugin-fs = "2"
+tauri-plugin-opener = "2"
+tauri-plugin-persisted-scope = "2"
+
+reqwest = { version = "0.13", default-features = false, features = ["query"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+dunce = "1"
+
+[target.'cfg(windows)'.dependencies]
+windows-sys = { version = "0.61", features = ["Win32_Security_Credentials"] }
+
+[target.'cfg(windows)'.dependencies.reqwest]
+version = "0.13"
+default-features = false
+features = ["native-tls"]
+
+[target.'cfg(target_os = "android")'.dependencies]
+base64 = "0.23"
+http = "1"

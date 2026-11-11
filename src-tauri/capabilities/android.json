@@ -1,0 +1,14 @@
+{
+  "identifier": "folio-android",
+  "description": "Android uses SAF and native adapters, with no independent windows.",
+  "platforms": [
+    "android"
+  ],
+  "windows": [
+    "main"
+  ],
+  "permissions": [
+    "core:default",
+    "opener:default"
+  ]
+}

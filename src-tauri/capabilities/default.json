@@ -1,0 +1,24 @@
+{
+  "identifier": "folio-desktop",
+  "description": "Read-only access to files and folders selected in the open dialog.",
+  "windows": [
+    "main",
+    "reader-*"
+  ],
+  "permissions": [
+    "core:default",
+    "core:webview:allow-create-webview-window",
+    "core:window:allow-close",
+    "core:window:allow-destroy",
+    "core:window:allow-unminimize",
+    "core:window:allow-set-focus",
+    "dialog:allow-open",
+    "fs:allow-read-dir",
+    "fs:allow-read-file",
+    "fs:deny-default",
+    "opener:default"
+  ],
+  "platforms": [
+    "windows"
+  ]
+}

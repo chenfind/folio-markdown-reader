@@ -1,0 +1,61 @@
+.reader { display: flex; flex: 1; min-width: 0; min-height: 0; background: var(--custom-paper, var(--paper)); color: var(--paper-ink); }
+.reading-column { display: flex; flex-direction: column; flex: 1; min-width: 0; min-height: 0; }
+.reading-scroll { min-height: 0; flex: 1; min-width: 0; overflow: auto; scrollbar-gutter: stable both-edges; overflow-anchor: none; scrollbar-color: var(--stroke) transparent; }
+.reader { --center-offset: 0px; --paper-gutter: 20px; }
+.with-library .reader.centered { --center-offset: calc(-1 * var(--library-width)); }
+.reader.centered:has(.outline) { --center-offset: var(--outline-width); }
+.with-library .reader.centered:has(.outline) { --center-offset: calc(var(--outline-width) - var(--library-width)); }
+.reader .paper, .document-nav {
+  --content-width: min(var(--doc-width), 100% - 2 * var(--paper-gutter));
+  width: var(--content-width);
+  margin-inline-start: clamp(var(--paper-gutter), calc((100% - var(--content-width) + var(--center-offset)) / 2), calc(100% - var(--content-width) - var(--paper-gutter)));
+}
+.reader .paper { padding-block: clamp(28px, 5vw, 69px) 80px; }
+.compact { --paper-gutter: 14px; }
+.compact .paper { padding-block: 27px 60px; }
+.edition { display: flex; align-items: center; gap: 6px; color: var(--paper-ink); opacity: .75; font-size: 12px; }
+.markdown { font-size: var(--doc-size); line-height: var(--doc-line); overflow-wrap: anywhere; }
+.markdown h1, .markdown h2, .markdown h3 { line-height: 1.35; text-wrap: balance; }
+.markdown h1 { font-family: Georgia, "Songti SC", SimSun, serif; font-size: 2.45em; font-weight: 700; margin: .42em 0 .55em; letter-spacing: -.035em; }
+.markdown h2 { font-size: 1.38em; margin: 1.6em 0 .65em; }
+.markdown h3 { font-size: 1.15em; margin: 1.45em 0 .55em; }
+.markdown p { margin: 0 0 1em; }
+.markdown a { color: var(--paper-link); text-underline-offset: 3px; }
+.markdown blockquote { margin: 1.4em 0; padding: .65em 1em; background: var(--selection); border-left: 3px solid var(--accent); border-radius: 0 6px 6px 0; color: var(--ink); }
+.markdown blockquote p:last-child { margin: 0; }
+.markdown code { font: .87em "Cascadia Code", Consolas, monospace; background: var(--code); color: var(--ink); border-radius: 4px; padding: .1em .26em; }
+.markdown pre { padding: 14px 17px; overflow: auto; background: var(--code); color: var(--ink); border-radius: 7px; line-height: 1.6; }
+.markdown pre code { background: none; padding: 0; }
+.markdown .hljs-keyword, .markdown .hljs-selector-tag { color: #8551a3; font-weight: 600; }
+.markdown .hljs-string, .markdown .hljs-attr { color: #147660; }
+.markdown .hljs-comment { color: var(--muted); }
+[data-theme=dark] .markdown .hljs-keyword { color: #d0a7e7; }
+[data-theme=dark] .markdown .hljs-string, [data-theme=dark] .markdown .hljs-attr { color: #90d4b6; }
+.markdown img { max-width: 100%; height: auto; }
+.markdown table { display: block; overflow-x: auto; border-collapse: collapse; margin: 1em 0; }
+.markdown th, .markdown td { border: 1px solid var(--stroke); padding: .4em .75em; }
+.markdown th { background: var(--code); color: var(--ink); text-align: left; }
+.markdown hr { border: 0; border-top: 1px solid var(--stroke); }
+.outline { flex: none; width: var(--outline-width); overflow: auto; border-left: 1px solid var(--stroke); padding: 24px 11px; background: var(--panel); color: var(--ink); }
+.outline-title { display: flex; align-items: center; gap: 7px; font-weight: 650; margin: 0 0 11px 9px; }
+.outline-title svg { color: var(--accent); }
+.outline button { width: 100%; text-align: left; border-left: 2px solid var(--stroke); padding: 7px 5px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.outline button.current { border-color: var(--accent); color: var(--accent); background: var(--selection); }
+.progress { display: grid; grid-template-columns: 1fr auto; gap: 8px; margin: 22px 7px; font-size: 11px; color: var(--muted); }
+.progress i { grid-column: span 2; height: 3px; background: var(--stroke); }
+.progress em { display: block; height: 100%; background: var(--accent); }
+.reader-message, .blank { display: grid; justify-items: center; align-content: center; height: 100%; padding: 20px; text-align: center; color: var(--muted); }
+.blank svg, .reader-message svg { color: var(--accent); }
+.blank h2 { margin-bottom: 0; color: var(--ink); }
+.paged .reading-scroll { overflow: hidden; scrollbar-gutter: auto; }
+.paged .paper { padding-block: 22px; overflow: hidden; }
+.paged .markdown {
+  height: var(--page-height); column-count: 1; column-gap: var(--page-gap); column-fill: auto;
+  overflow: hidden; overflow-anchor: none;
+}
+.paged .markdown :is(h1,h2,h3,h4,h5,h6) { break-after: avoid-column; break-inside: avoid-column; }
+.paged .markdown :is(p,li,blockquote) { widows: 2; orphans: 2; }
+.paged .markdown :is(pre,table,img) { break-inside: avoid-column; }
+.paged .markdown :is(pre,table) { max-height: calc(var(--page-height) - 16px); margin-block: 8px; overflow: auto; }
+.paged .markdown img { max-height: calc(var(--page-height) - var(--doc-size) * var(--doc-line) - 20px); object-fit: contain; }
+.page-number { grid-column: 2; grid-row: 1; align-self: center; font-variant-numeric: tabular-nums; color: var(--muted); }
