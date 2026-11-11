@@ -1,0 +1,231 @@
+.github/ISSUE_TEMPLATE/bug_report.md
+  s_b16dc120361d86::t_4a3c191c7a6bfb 1-24
+docs/android-build.md
+  s_b16dc120361d86::t_58a2512fbec7c5 16-17
+  s_b16dc120361d86::t_4a3c191c7a6bfb 1-15,18-46
+.github/workflows/check.yml
+  s_b16dc120361d86::t_4a3c191c7a6bfb 1-31
+  s_b16dc120361d86::t_db500c6c50d1e1 32-57
+.gitattributes
+  s_b16dc120361d86::t_58a2512fbec7c5 1-4
+src-tauri/gen/android/app/build.gradle.kts
+  s_b16dc120361d86::t_5b0ce319d579f1 18-20
+  s_b16dc120361d86::t_d362e4405dc709 1-17,21-100
+src/App.vue
+  s_b16dc120361d86::t_749fd70aaf3fca 407-408
+  s_b16dc120361d86::t_998b4e6c9bea10 1-406,409-463
+.gitignore
+  s_b16dc120361d86::t_99bbb4aa7feb43 1-36
+.vscode/extensions.json
+  s_b16dc120361d86::t_65960595f9ef6a 1-3
+LICENSE
+  s_b16dc120361d86::t_04c553da02ce1e 1-21
+README.md
+  s_b16dc120361d86::t_21ff4e14cb72b9 1-83
+README.zh-CN.md
+  s_b16dc120361d86::t_269d0b070f3d2e 1-70
+docs/android-requirements.md
+  s_b16dc120361d86::t_6d4e9ee1706793 1-59
+docs/architecture.md
+  s_b16dc120361d86::t_02481098cea532 1-64
+index.html
+  s_b16dc120361d86::t_27ae6db45d0fcc 1-13
+package-lock.json
+  s_b16dc120361d86::t_500e8baf8e9a64 1-1637
+package.json
+  s_b16dc120361d86::t_f2b0446d3dbdc1 1-44
+public/favicon.svg
+  s_b16dc120361d86::t_1c1e5433fe34ed 1
+public/folio.svg
+  s_b16dc120361d86::t_e0256e08bda0bc 1-4
+public/icons.svg
+  s_b16dc120361d86::t_0395d32e99e58b 1-24
+src-tauri/.gitignore
+  s_b16dc120361d86::t_17f95337357837 1-4
+src-tauri/Cargo.lock
+  s_b16dc120361d86::t_ae25490cc75a57 1-5064
+src-tauri/Cargo.toml
+  s_b16dc120361d86::t_757f452bebadbd 1-37
+src-tauri/build.rs
+  s_b16dc120361d86::t_e900dd66eec1c0 1-3
+src-tauri/capabilities/android.json
+  s_b16dc120361d86::t_6d80a7b33c244b 1-14
+src-tauri/capabilities/default.json
+  s_b16dc120361d86::t_ae744def89263e 1-24
+src-tauri/gen/android/.editorconfig
+  s_b16dc120361d86::t_c6df3c33c81468 1-12
+src-tauri/gen/android/.gitignore
+  s_b16dc120361d86::t_7337fa8b925a35 1-20
+src-tauri/gen/android/app/.gitignore
+  s_b16dc120361d86::t_83eb3f82cbcee4 1-6
+src-tauri/gen/android/app/proguard-rules.pro
+  s_b16dc120361d86::t_426c3d3b3f35b6 1-21
+src-tauri/gen/android/app/src/main/AndroidManifest.xml
+  s_b16dc120361d86::t_4003deb75643be 1-38
+src-tauri/gen/android/app/src/main/java/app/folio/reader/MainActivity.kt
+  s_b16dc120361d86::t_470ae793674e97 1-11
+src-tauri/gen/android/app/src/main/res/drawable-v24/ic_launcher_foreground.xml
+  s_b16dc120361d86::t_1087d5d890385d 1-30
+src-tauri/gen/android/app/src/main/res/drawable/ic_launcher_background.xml
+  s_b16dc120361d86::t_cc90c1d2571eae 1-170
+src-tauri/gen/android/app/src/main/res/layout/activity_main.xml
+  s_b16dc120361d86::t_e89705ab8f4b32 1-18
+src-tauri/gen/android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
+  s_b16dc120361d86::t_bb4e8c9318e93d 1-5
+src-tauri/gen/android/app/src/main/res/values-night/themes.xml
+  s_b16dc120361d86::t_36f47d3e1cc6fd 1-6
+src-tauri/gen/android/app/src/main/res/values/colors.xml
+  s_b16dc120361d86::t_bc324293a29d35 1-10
+src-tauri/gen/android/app/src/main/res/values/ic_launcher_background.xml
+  s_b16dc120361d86::t_5a4c8a855d1274 1-4
+src-tauri/gen/android/app/src/main/res/values/strings.xml
+  s_b16dc120361d86::t_f578051c4373ab 1-4
+src-tauri/gen/android/app/src/main/res/values/themes.xml
+  s_b16dc120361d86::t_8903e0361def15 1-6
+src-tauri/gen/android/app/src/main/res/xml/file_paths.xml
+  s_b16dc120361d86::t_e31688eac4b524 1-5
+src-tauri/gen/android/build.gradle.kts
+  s_b16dc120361d86::t_4f5ce214ea7c8d 1-21
+src-tauri/gen/android/buildSrc/build.gradle.kts
+  s_b16dc120361d86::t_beed863bf370b5 1-22
+src-tauri/gen/android/buildSrc/src/main/java/app/folio/reader/kotlin/BuildTask.kt
+  s_b16dc120361d86::t_31cdcbdafe4d37 1-75
+src-tauri/gen/android/buildSrc/src/main/java/app/folio/reader/kotlin/RustPlugin.kt
+  s_b16dc120361d86::t_0c1fb93934e00c 1-86
+src-tauri/gen/android/gradle.properties
+  s_b16dc120361d86::t_3fdaa20d5643e5 1-26
+src-tauri/gen/android/gradle/wrapper/gradle-wrapper.properties
+  s_b16dc120361d86::t_401c119ea98c84 1-6
+src-tauri/gen/android/gradlew
+  s_b16dc120361d86::t_33579d9d4ae61b 1-248
+src-tauri/gen/android/gradlew.bat
+  s_b16dc120361d86::t_610f5c2fedaa38 1-82
+src-tauri/gen/android/settings.gradle
+  s_b16dc120361d86::t_6b49025c65e32d 1-3
+src-tauri/icons/android/mipmap-anydpi-v26/ic_launcher.xml
+  s_b16dc120361d86::t_15262643262fd7 1-5
+src-tauri/icons/android/values/ic_launcher_background.xml
+  s_b16dc120361d86::t_0b5ebac8755580 1-4
+src-tauri/installer.nsi
+  s_b16dc120361d86::t_cd0ce270edb779 1-1046
+src-tauri/mobile/android/CloneManager.kt
+  s_b16dc120361d86::t_e407e3151d4550 1-137
+src-tauri/mobile/android/DocumentAccess.kt
+  s_b16dc120361d86::t_0c04a0aaa3ec70 1-111
+src-tauri/mobile/android/FolioMobilePlugin.kt
+  s_b16dc120361d86::t_b1d7c9acd4265f 1-155
+src-tauri/mobile/android/SecureCredentials.kt
+  s_b16dc120361d86::t_0f7444c79fe3c7 1-49
+src-tauri/src/lib.rs
+  s_b16dc120361d86::t_f4f327872980a4 1-26
+src-tauri/src/main.rs
+  s_b16dc120361d86::t_7cf48320eb66df 1-6
+src-tauri/src/platform/android.rs
+  s_b16dc120361d86::t_eac2d6f27ada32 1-94
+src-tauri/src/platform/credentials.rs
+  s_b16dc120361d86::t_b603a1ed16661a 1-15
+src-tauri/src/platform/mod.rs
+  s_b16dc120361d86::t_f9e7b691608cb3 1-53
+src-tauri/src/platform/windows_credentials.rs
+  s_b16dc120361d86::t_c1ecb5915d47bb 1-51
+src-tauri/src/platform/windows_git.rs
+  s_b16dc120361d86::t_aba3195c72dafa 1-60
+src-tauri/src/repositories.rs
+  s_b16dc120361d86::t_11bd6ec682f439 1-372
+src-tauri/src/repository_url.rs
+  s_b16dc120361d86::t_f81ec1a0d68354 1-17
+src-tauri/tauri.conf.json
+  s_b16dc120361d86::t_eaeda4964ef446 1-43
+src/app/components/ReadingSettings.vue
+  s_b16dc120361d86::t_989b05ec86afe4 1-53
+src/app/readerRegistry.ts
+  s_b16dc120361d86::t_460f2a77a35b6a 1-5
+src/app/session.ts
+  s_b16dc120361d86::t_01e36571889011 1-6
+src/app/useDocumentLibrary.ts
+  s_b16dc120361d86::t_2a53b6d161268d 1-83
+src/app/useReadingSession.ts
+  s_b16dc120361d86::t_f172feb70cc29f 1-132
+src/app/useReadingSettings.ts
+  s_b16dc120361d86::t_b8bdf30da7b13a 1-28
+src/app/useReadingWindows.ts
+  s_b16dc120361d86::t_54a8b9775de321 1-111
+src/app/useSplitLayout.ts
+  s_b16dc120361d86::t_94b4ff5d1b45af 1-35
+src/assets/vite.svg
+  s_b16dc120361d86::t_adf250404e7e20 1
+src/core/persistence.ts
+  s_b16dc120361d86::t_6ec607f7a45f37 1-6
+src/core/reading.ts
+  s_b16dc120361d86::t_ecf26d66a315e3 1-11
+src/documents/FileTree.vue
+  s_b16dc120361d86::t_0737777692f4d8 1-31
+src/documents/address.ts
+  s_b16dc120361d86::t_7485d465b996bd 1-23
+src/documents/library.ts
+  s_b16dc120361d86::t_bbf292319a364b 1-41
+src/documents/types.ts
+  s_b16dc120361d86::t_7c0b3d8ab76bb5 1-6
+src/examples/排版样张.md
+  s_b16dc120361d86::t_b0fec464ff8236 1-30
+src/examples/起点.md
+  s_b16dc120361d86::t_e025203748795e 1-38
+src/main.ts
+  s_b16dc120361d86::t_934c4b445d494a 1-9
+src/platform/android.ts
+  s_b16dc120361d86::t_f95c0ae94e4532 1-45
+src/platform/browser.ts
+  s_b16dc120361d86::t_a46845d23dbd01 1-58
+src/platform/index.ts
+  s_b16dc120361d86::t_704370584080bd 1-15
+src/platform/policy.ts
+  s_b16dc120361d86::t_ed72904677eec7 1-12
+src/platform/tauri.ts
+  s_b16dc120361d86::t_f4f5501c425d2d 1-25
+src/platform/types.ts
+  s_b16dc120361d86::t_af6a11d0765c7b 1-35
+src/platform/windows.ts
+  s_b16dc120361d86::t_00c8988c4e7420 1-48
+src/reader/Reader.vue
+  s_b16dc120361d86::t_0563f9dbd1ef92 1-348
+src/reader/markdown.ts
+  s_b16dc120361d86::t_5ef10fd625da31 1-55
+src/reader/position.ts
+  s_b16dc120361d86::t_608615a56b1221 1-14
+src/reader/reader.css
+  s_b16dc120361d86::t_df501a0b4ef0b4 1-61
+src/repositories/RemoteDialog.vue
+  s_b16dc120361d86::t_fb46ddc3382f0f 1-113
+src/repositories/remote.ts
+  s_b16dc120361d86::t_3a3434f123e263 1-96
+src/repositories/types.ts
+  s_b16dc120361d86::t_a84a9edbcb63c4 1-20
+src/style.css
+  s_b16dc120361d86::t_35b449e2ec06e3 1-120
+tests/platform-contract.test.ts
+  s_b16dc120361d86::t_ed94768124c90d 1-59
+tsconfig.app.json
+  s_b16dc120361d86::t_428330cec1e6f7 1-15
+tsconfig.json
+  s_b16dc120361d86::t_258660e33f1ab2 1-7
+tsconfig.node.json
+  s_b16dc120361d86::t_45d79df2845704 1-23
+vite.config.ts
+  s_b16dc120361d86::t_36b7b95cb99f80 1-7
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "3a4edb0c2a3b2782e9d270c9e8627fe6d9dbb44e",
+  "prompts": {},
+  "sessions": {
+    "s_b16dc120361d86": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1bf6c-18d7-7280-8109-bc463b33ea2d",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "chenfind <75835354+chenfind@users.noreply.github.com>"
+    }
+  }
+}
