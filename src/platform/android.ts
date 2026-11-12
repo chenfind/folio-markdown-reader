@@ -1,7 +1,7 @@
 import { invoke } from '@tauri-apps/api/core'
 import { openUrl } from '@tauri-apps/plugin-opener'
 import type { Entry } from '../documents/types'
-import type { CloneProgress, RepositoryAccess } from '../repositories/types'
+import type { CloneProgress, LocalClone, RepositoryAccess } from '../repositories/types'
 import type { Platform } from './types'
 import { capabilitiesFor } from './policy'
 
@@ -23,6 +23,12 @@ export const androidPlatform = (repositories: RepositoryAccess): Platform => {
     },
     repositories: {
       ...repositories,
+      inspectClone: path => mobile<LocalClone | null>('cloneInfo', { path }),
+      updateClone: async (path, source, options) => {
+        const timer = window.setInterval(() => { void mobile<CloneProgress>('cloneStatus').then(value => options?.progress?.(value)).catch(() => {}) }, 500)
+        try { return (await mobile<{ path: string }>('cloneStart', { ...source, path, directory: options?.directory || '', token: options?.token || '' })).path }
+        finally { clearInterval(timer) }
+      },
       clone: async (source, options) => {
         let statusPending = false
         const timer = window.setInterval(async () => {
@@ -33,7 +39,7 @@ export const androidPlatform = (repositories: RepositoryAccess): Platform => {
           finally { statusPending = false }
         }, 350)
         try {
-          const result = await mobile<{ path: string }>('cloneStart', { ...source, token: options?.token || '' })
+          const result = await mobile<{ path: string }>('cloneStart', { ...source, directory: options?.directory || '', token: options?.token || '' })
           return result.path
         } finally { clearInterval(timer) }
       },

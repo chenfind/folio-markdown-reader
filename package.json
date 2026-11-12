@@ -1,7 +1,7 @@
 {
   "name": "folio-reader",
   "private": true,
-  "version": "0.2.0",
+  "version": "0.2.3",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -12,7 +12,8 @@
     "test": "node --experimental-strip-types --test tests/*.test.ts",
     "android:dev": "tauri android dev",
     "android:build": "tauri android build --target aarch64 --apk",
-    "tauri": "tauri"
+    "tauri": "tauri",
+    "test:mobile": "node tests/mobile-reader.e2e.cjs"
   },
   "dependencies": {
     "@lucide/vue": "1.70.0",

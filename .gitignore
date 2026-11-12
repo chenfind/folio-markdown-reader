@@ -34,3 +34,6 @@ dist-ssr
 keystore.properties
 .env
 .env.*
+
+# Local browser regression artifacts
+/test-results/

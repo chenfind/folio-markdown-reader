@@ -83,7 +83,7 @@ impl Repository {
 
     fn request(&self, url: Url, token: Option<&str>) -> Result<RequestBuilder, String> {
         let client = CLIENT.as_ref().map_err(|_| "无法初始化网络连接。")?;
-        let request = client.get(url);
+        let request = client.get(url).header("Cache-Control", "no-cache");
         let token = token.filter(|value| !value.is_empty());
         Ok(match (self.provider.as_str(), token) {
             ("github", Some(value)) => request.bearer_auth(value),
@@ -169,7 +169,7 @@ pub async fn remote_resolve(
         return Err("阅读目录必须是仓库内的相对路径。".into());
     }
     let stored = credential::read(&repository.credential_target());
-    let secret = token.as_deref().or(stored.as_deref());
+    let secret = token.as_deref().filter(|value| !value.is_empty()).or(stored.as_deref());
     let branch = if source.branch.trim().is_empty() {
         let value = json(repository.request(repository.api.clone(), secret)?).await?;
         value["default_branch"]

@@ -59,3 +59,6 @@
 .paged .markdown :is(pre,table) { max-height: calc(var(--page-height) - 16px); margin-block: 8px; overflow: auto; }
 .paged .markdown img { max-height: calc(var(--page-height) - var(--doc-size) * var(--doc-line) - 20px); object-fit: contain; }
 .page-number { grid-column: 2; grid-row: 1; align-self: center; font-variant-numeric: tabular-nums; color: var(--muted); }
+
+.paged .reading-scroll { touch-action: pan-y pinch-zoom; }
+.paged .markdown :is(a,button,input,select,textarea,summary,[data-reader-interactive]) { touch-action: manipulation; }

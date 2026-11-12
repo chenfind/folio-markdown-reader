@@ -21,14 +21,14 @@ export function remoteLabel(path: string) {
 function normalizeDirectory(path: string) { return path.trim().replace(/^\/+|\/+$/g, '') }
 export async function connectRepository(source: RemoteSource, directory: string, token: string, id: string = crypto.randomUUID()) {
   const selected = normalizeDirectory(directory)
-  const revision = await getPlatform().repositories.resolve(source, selected, token)
+  const revision = await getPlatform().repositories.resolve(source, selected, token.trim() || null)
   const repo = { ...source, id, directory: selected, revision }
   save('remote-repositories', [...repositories().filter(item => item.id !== id), repo])
   return repo
 }
 
-export async function syncRepositories() {
-  const existing = repositories()
+export async function syncRepositories(id?: string) {
+  const existing = repositories().filter(repo => !id || repo.id === id)
   const updates = await Promise.allSettled(existing.map(async repo => ({
     ...repo, revision: await getPlatform().repositories.resolve(repo, '', null),
   })))

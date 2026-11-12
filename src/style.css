@@ -5,6 +5,7 @@ button, input { font: inherit; }
 button { border: 0; color: inherit; background: none; cursor: pointer; }
 button:disabled { cursor: default; opacity: .35; }
 button:focus-visible, [tabindex]:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.reading-scroll:focus-visible { outline: none; }
 button svg { flex: none; }
 .shell {
   --chrome: #f1f5f7; --panel: #f8fafb; --paper: #fff; --ink: #20343e; --muted: #536974;
@@ -43,6 +44,11 @@ button svg { flex: none; }
 .tree-button { display: flex; width: 100%; min-width: 0; align-items: center; gap: 7px; padding: 6px 5px; text-align: left; }
 .tree-button > span:last-child, .tab-name span, .breadcrumb b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .tree-button svg { opacity: .8; }
+.tree-button > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.source-tag { flex: none; margin-left: auto; padding: 2px 5px; font-size: 10px; border-radius: 5px; background: var(--selection); color: var(--accent); white-space: nowrap; }
+.repository-actions { padding-left: 28px; }
+.repo-update { display: inline-flex; align-items: center; gap: 6px; color: var(--accent); min-height: 32px; font-size: 11px; }
+.mobile-ui .repo-update { min-height: 44px; }
 .chevron.expanded { transform: rotate(90deg); }
 .tree-spacer { width: 13px; flex: none; }
 .tree-remove { width: 24px; height: 23px; flex: none; opacity: 0; }
@@ -102,19 +108,3 @@ button svg { flex: none; }
 
 
 @media (max-width: 760px) { .refresh-library span { display: none; } }
-
-
-.shell[data-platform=android] { padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom); }
-[data-platform=android] .toolbar { height: 54px; gap: 7px; padding-inline: 8px; }
-[data-platform=android] .brand-name, [data-platform=android] .brand-sub, [data-platform=android] .toolbar-actions span, [data-platform=android] .refresh-library span { display: none; }
-[data-platform=android] .toolbar-actions, [data-platform=android] .toolbar-end { gap: 3px; }
-[data-platform=android] .toolbar .action { padding: 7px; }
-[data-platform=android] .workbench { position: relative; --library-width: 0px; --outline-width: 0px; }
-[data-platform=android] .sidebar { position: absolute; z-index: 4; left: 0; top: 0; bottom: 0; width: min(78vw, 290px); box-shadow: 8px 0 24px #102c3a22; }
-[data-platform=android] .tree-button { padding-block: 10px; }
-[data-platform=android] .reader { position: relative; }
-[data-platform=android] .outline { display: block; position: absolute; right: 0; top: 0; bottom: 0; z-index: 3; width: min(65vw, 230px); box-shadow: -8px 0 24px #102c3a22; }
-[data-platform=android] .tab-name { touch-action: pan-x; cursor: pointer; }
-[data-platform=android] .tab-close, [data-platform=android] .pane-actions .icon { min-width: 28px; height: 36px; }
-[data-platform=android] .settings { top: 53px; max-height: calc(100dvh - 65px); overflow: auto; }
-[data-platform=android] .document-nav .action { padding-inline: 7px; font-size: 12px; }

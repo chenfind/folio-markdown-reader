@@ -1,6 +1,6 @@
 [package]
 name = "folio-reader"
-version = "0.2.0"
+version = "0.2.3"
 description = "A Markdown reader for local folders and Git repositories"
 edition = "2024"
 rust-version = "1.90"

@@ -1,13 +1,18 @@
 use std::path::PathBuf;
+use tauri::Manager;
 use tauri_plugin_fs::FsExt;
 
 pub async fn clone_repository(
     window: tauri::WebviewWindow,
     url: String,
     branch: String,
+    provider: String,
+    directory: String,
     parent: String,
 ) -> Result<String, String> {
     let url = crate::repository_url::https_url(&url)?;
+    super::managed_clones::validate_directory(&directory)?;
+    let app = window.app_handle().clone();
     let name = url
         .path_segments()
         .and_then(|mut parts| parts.next_back())
@@ -32,7 +37,15 @@ pub async fn clone_repository(
     }
     tauri::async_runtime::spawn_blocking(move || {
         let mut git = std::process::Command::new("git");
-        git.args(["clone", "--depth", "1"]);
+        git.args([
+            "-c",
+            "http.lowSpeedLimit=1",
+            "-c",
+            "http.lowSpeedTime=35",
+            "clone",
+            "--depth",
+            "1",
+        ]);
         if !branch.trim().is_empty() {
             git.args(["--branch", branch.trim()]);
         }
@@ -53,7 +66,23 @@ pub async fn clone_repository(
             );
         }
         let canonical = dunce::canonicalize(&destination).map_err(|_| "无法打开已克隆的目录。")?;
-        Ok(canonical.to_string_lossy().replace('\\', "/"))
+        let selected =
+            dunce::canonicalize(canonical.join(&directory)).map_err(|_| "指定阅读目录不存在。")?;
+        if !selected.is_dir() || !selected.starts_with(&canonical) {
+            return Err("指定阅读目录不可用。".into());
+        }
+        super::managed_clones::register(
+            &app,
+            &canonical,
+            provider,
+            url.to_string(),
+            branch,
+            directory.clone(),
+        )?;
+        Ok(canonical
+            .join(directory)
+            .to_string_lossy()
+            .replace('\\', "/"))
     })
     .await
     .map_err(|_| "克隆任务未能完成。")?

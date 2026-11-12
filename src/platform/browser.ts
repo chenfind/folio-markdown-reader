@@ -52,7 +52,7 @@ export const createBrowserPlatform = (): Platform => ({
   files: createBrowserFiles(),
   windows: browserWindows,
   repositories: {
-    resolve: unsupported, list: unsupported, tree: unsupported, read: unsupported, clone: unsupported,
+    resolve: unsupported, list: unsupported, tree: unsupported, read: unsupported, clone: unsupported, inspectClone: async () => null, updateClone: unsupported,
   },
   openExternal: async (url) => { window.open(url, '_blank', 'noopener,noreferrer') },
 })

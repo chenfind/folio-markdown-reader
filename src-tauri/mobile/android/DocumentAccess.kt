@@ -43,11 +43,18 @@ class DocumentAccess(private val context: Context) {
     }
 
     @Synchronized
-    fun registerClone(root: File, label: String): String {
-        val id = root.name
-        check(preferences.edit().putString(id, JSONObject().put("local", root.canonicalPath).put("directory", true).put("label", label).toString()).commit()) { "无法保存仓库记录。" }
+    fun registerClone(root: File, label: String, id: String = root.name, source: JSONObject? = null, directory: String = ""): String {
+        check(preferences.edit().putString(id, JSONObject().put("local", root.canonicalPath).put("directory", true).put("label", label).put("source", source).put("readingDirectory", directory).toString()).commit()) { "无法保存仓库记录。" }
         return "saf:/" + id
     }
+
+    fun cloneRecord(path: String): JSONObject? {
+        val saved = location(path).source
+        return if (saved.has("local")) saved else null
+    }
+
+    fun activeCloneDirectories(): Set<String> = preferences.all.values.map { JSONObject(it as String) }
+        .filter { it.has("local") }.map { File(it.getString("local")).canonicalPath }.toSet()
 
     private data class Location(val source: JSONObject, val parts: List<String>)
 

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { ChevronRight, FileText, Folder, FolderOpen, GitBranch, X } from '@lucide/vue'
+import { ChevronRight, FileText, Folder, FolderOpen, GitBranch, RotateCw, Settings2, X } from '@lucide/vue'
 import { isRemote, nameOf } from './address'
 import type { Entry } from './types'
 defineProps<{ entries: Entry[]; expanded: string[]; contents: Record<string, Entry[]>; current?: string; depth?: number; removable?: boolean; touch?: boolean }>()
-const emit = defineEmits<{ select: [Entry]; remove: [Entry]; documentPointer: [PointerEvent, Entry]; fileMenu: [MouseEvent, Entry] }>()
+const emit = defineEmits<{ select: [Entry]; remove: [Entry]; update: [Entry]; documentPointer: [PointerEvent, Entry]; fileMenu: [MouseEvent, Entry] }>()
 </script>
 
 <template>
@@ -17,10 +17,12 @@ const emit = defineEmits<{ select: [Entry]; remove: [Entry]; documentPointer: [P
           <ChevronRight v-if="entry.directory" class="chevron" :class="{ expanded: expanded.includes(entry.path) }" :size="13" />
           <span v-else class="tree-spacer"></span>
           <component :is="removable && isRemote(entry.path) ? GitBranch : entry.directory ? expanded.includes(entry.path) ? FolderOpen : Folder : FileText" :size="16" />
-          <span>{{ entry.label || nameOf(entry.path) }}</span>
+          <span>{{ entry.label || nameOf(entry.path) }}</span><small v-if="removable && (entry.sourceKind || isRemote(entry.path))" class="source-tag">{{ entry.sourceKind === 'unmanaged' ? 'Git 文件夹' : entry.sourceKind === 'local' ? '本地克隆' : '在线' }}</small>
         </button>
+        <button v-if="removable && (entry.sourceKind || isRemote(entry.path))" class="icon tree-config" title="修改仓库配置" aria-label="修改仓库配置" @click="emit('fileMenu', $event, entry)"><Settings2 :size="15" /></button>
         <button v-if="removable" class="icon tree-remove" title="移出文档库" aria-label="移出文档库" @click="emit('remove', entry)"><X :size="14" /></button>
       </div>
+      <div v-if="removable && (entry.sourceKind || isRemote(entry.path))" class="repository-actions"><button class="repo-update" :aria-label="entry.sourceKind === 'unmanaged' ? '启用仓库更新' : entry.sourceKind === 'local' ? '更新本地仓库' : '更新在线仓库'" @click="emit('update', entry)"><RotateCw :size="13" />{{ entry.sourceKind === 'unmanaged' ? '启用仓库更新' : entry.sourceKind === 'local' ? '更新本地仓库' : '更新在线仓库' }}</button></div>
       <template v-if="entry.directory && expanded.includes(entry.path)">
         <FileTree :touch="touch" v-if="contents[entry.path]?.length" :entries="contents[entry.path]!" :expanded="expanded" :contents="contents"
           :depth="(depth || 0) + 1" :current="current" @select="emit('select', $event)" @document-pointer="(event, entry) => emit('documentPointer', event, entry)" @file-menu="(event, entry) => emit('fileMenu', event, entry)" />

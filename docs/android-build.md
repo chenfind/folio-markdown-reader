@@ -13,9 +13,11 @@ npm ci
 npm run android:build
 ```
 
-Windows 构建时 Tauri 需要创建符号链接，请先启用 Windows 开发者模式。未启用时原生编译可能成功，但在链接 jniLibs 阶段失败。
+Windows 构建时 Tauri 的 jniLibs 链接阶段需要符号链接权限。未启用时无需修改系统安全设置：先确认 Rust release 编译成功，再将 src-tauri/target/aarch64-linux-android/release/libapp_lib.so 复制到 src-tauri/gen/android/app/src/main/jniLibs/arm64-v8a/libapp_lib.so，然后在 Android 工程目录执行 `./gradlew.bat assembleArm64Release -x rustBuildArm64Release`。其它编译错误不能按此方式跳过。
 
 先把 JAVA_HOME 指向 JDK，ANDROID_HOME 指向 SDK，NDK_HOME 指向 SDK 下的 ndk/27.2.12479018。这些路径保存在本机环境，不能提交 local.properties。
+
+建议把工具链放在长期固定、无需管理员权限且不含空格的目录，例如 JDK 使用 `C:\DevTools\Java\jdk-21`，SDK 使用 `C:\Android\Sdk`，NDK 使用 `C:\Android\Sdk\ndk\27.2.12479018`。Gradle 使用项目 Wrapper 管理版本，无需另行全局安装。修改用户环境变量后，重新打开终端或开发工具才能继承新值。
 
 调试构建可用 `npm run tauri -- android build --target aarch64 --apk --debug`。APK 输出在 src-tauri/gen/android/app/build/outputs/apk 下。调试包与发布包签名不同，不能相互覆盖安装。
 
@@ -31,6 +33,8 @@ Gradle 从环境读取以下字段；不设置时 release 产物没有可安装�
 | FOLIO_KEY_PASSWORD | 签名密钥密码 |
 
 使用同一签名和递增版本发布后续 APK，才能保留应用数据覆盖升级。私钥必须自行离线备份，不能放进 Git、Issue 或 Release 附件。公开源码不包含项目发布密钥，贡献者需要自己的调试或发布签名。
+
+本机 Android 签名统一存放在 `C:\Android\signing\<项目名>`，Folio 使用 `C:\Android\signing\folio-reader`。密钥库及包含密码的本机签名配置都留在此目录，不进入代码仓库；构建脚本从此处读取配置。
 
 ## 原生服务
 

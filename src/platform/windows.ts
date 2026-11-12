@@ -2,7 +2,7 @@ import { invoke } from '@tauri-apps/api/core'
 import { open } from '@tauri-apps/plugin-dialog'
 import { readDir, readFile } from '@tauri-apps/plugin-fs'
 import type { FileAccess } from '../documents/types'
-import type { RemoteSource } from '../repositories/types'
+import type { CloneOptions, RemoteSource } from '../repositories/types'
 import { WebviewWindow } from '@tauri-apps/api/webviewWindow'
 import { getCurrentWindow } from '@tauri-apps/api/window'
 import type { ReadingWindows } from './types'
@@ -41,8 +41,8 @@ export const files: FileAccess = {
   read: readFile,
 }
 
-export const cloneRepository = async (source: RemoteSource): Promise<string | null> => {
+export const cloneRepository = async (source: RemoteSource, options?: CloneOptions): Promise<string | null> => {
     const parent = await open({ directory: true, recursive: true, title: '选择克隆位置' })
     if (!parent) return null
-    return invoke<string>('remote_clone', { url: source.url, branch: source.branch, parent })
+    return invoke<string>('remote_clone', { url: source.url, branch: source.branch, provider: source.provider, directory: options?.directory || '', parent })
 }

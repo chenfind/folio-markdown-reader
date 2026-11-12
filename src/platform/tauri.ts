@@ -1,6 +1,6 @@
 import { invoke } from '@tauri-apps/api/core'
 import { openUrl } from '@tauri-apps/plugin-opener'
-import type { RepositoryAccess, Revision, RemoteEntry, TreeEntry } from '../repositories/types'
+import type { RepositoryAccess, Revision, RemoteEntry, TreeEntry, LocalClone } from '../repositories/types'
 import type { Platform } from './types'
 import { capabilitiesFor } from './policy'
 
@@ -11,6 +11,9 @@ const repositoryAccess: RepositoryAccess = {
   tree: (source, tree) => invoke<TreeEntry[] | null>('remote_github_tree', { source, tree }),
   read: async (source, commit, path) => new Uint8Array(await invoke<ArrayBuffer>('remote_read', { source, commit, path })),
   clone: async () => { throw new Error('当前平台的内置 Git 适配尚未完成。') },
+  inspectClone: path => invoke<LocalClone | null>('local_clone_info', { path }),
+  adoptClone: path => invoke<void>('local_clone_adopt', { path }),
+  updateClone: (path, source, options) => invoke<string>('local_clone_update', { path, source, directory: options?.directory || '' }),
 }
 
 export const createNativePlatform = async (): Promise<Platform> => {

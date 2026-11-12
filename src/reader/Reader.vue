@@ -2,14 +2,17 @@
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { renderMarkdown, type Heading } from './markdown'
 import { closestAnchorBlock } from './position'
+import { renderedLocation } from './sourcePosition'
+import { reservesInteraction, scrollAxes, swipeStep, tapZone } from './interaction'
+import type { ReaderStatus } from '../app/readerRegistry'
 import './reader.css'
 import { BookOpen, ChevronLeft, ChevronRight, List, RotateCw } from '@lucide/vue'
-import { bytes, external, read, welcome } from '../documents/library'
+import { bytes, read, welcome } from '../documents/library'
 import { localPath, markdown, nameOf } from '../documents/address'
 import type { Anchor, Tab } from '../core/reading'
 
-const props = defineProps<{ tab: Tab; outline: boolean; centered: boolean; compact: boolean; font: number; line: number; width: number; paged: boolean; animation: 'none' | 'slide' | 'curl'; previousDocument: boolean; nextDocument: boolean }>()
-const emit = defineEmits<{ position: [Tab, Anchor]; navigate: [string, string]; linkMenu: [MouseEvent, string, string]; linkPointer: [PointerEvent, string, string, HTMLElement]; pageBoundary: [number]; outlineSelected: []; error: [string] }>()
+const props = defineProps<{ tab: Tab; outline: boolean; centered: boolean; compact: boolean; font: number; line: number; width: number; paged: boolean; animation: 'none' | 'slide' | 'curl'; previousDocument: boolean; nextDocument: boolean; mobile?: boolean; swipePaging?: boolean; tapPaging?: boolean; gutter?: number }>()
+const emit = defineEmits<{ position: [Tab, Anchor]; navigate: [string, string]; previewLink: [string, string?, string?]; linkMenu: [MouseEvent, string, string]; linkPointer: [PointerEvent, string, string, HTMLElement]; pageBoundary: [number]; outlineSelected: []; toggleChrome: []; status: [ReaderStatus]; error: [string] }>()
 const scroller = ref<HTMLElement>()
 const article = ref<HTMLElement>()
 const html = ref('')
@@ -24,7 +27,10 @@ const pageHeight = ref(0)
 const gap = 24
 let effect: Animation | undefined
 let userTurned = false
-let clickOrigin: { x: number; y: number } | undefined
+let clickOrigin: { x: number; y: number; time: number; target: EventTarget | null; id: number; touch: boolean; distance: number; selected: boolean } | undefined
+let suppressClickUntil = 0
+let linkHoldTimer: number | undefined
+function clearLinkHold() { clearTimeout(linkHoldTimer); linkHoldTimer = undefined }
 
 function stride() { return (article.value?.clientWidth || 0) + gap }
 function paginate() {
@@ -32,6 +38,7 @@ function paginate() {
   const body = article.value
   if (!props.paged || !view || !body) return
   pages.value = Math.max(1, 1 + Math.round((body.scrollWidth - body.clientWidth) / stride()))
+  syncScrollRegions()
 }
 function showPage(index: number) {
   const body = article.value
@@ -71,21 +78,63 @@ function turn(step: number) {
   flush()
   animatePage(step)
 }
-function interactive(target: EventTarget | null) {
-  return target instanceof Element && Boolean(target.closest('a, button, input, textarea, select, label, summary, pre, table, img, [tabindex]:not(.reading-scroll), [contenteditable]'))
+function interactive(target: EventTarget | null, axis?: 'x' | 'y') {
+  return reservesInteraction(target, article.value, axis)
+}
+function syncScrollRegions() {
+  article.value?.querySelectorAll<HTMLElement>('pre, table, [data-reader-scroll]').forEach(element => {
+    const axes = scrollAxes(element)
+    const horizontal = axes.x
+    if (axes.x || axes.y) { element.tabIndex = 0; element.setAttribute('data-reader-scroll-focus', ''); element.setAttribute('aria-label', element.tagName === 'TABLE' ? '可滚动表格' : '可滚动代码块') }
+    else if (element.hasAttribute('data-reader-scroll-focus')) { element.removeAttribute('tabindex'); element.removeAttribute('aria-label'); element.removeAttribute('data-reader-scroll-focus') }
+    element.toggleAttribute('data-reader-scroll-x', horizontal)
+    element.style.touchAction = horizontal ? 'pan-x pan-y pinch-zoom' : props.paged ? 'pan-y pinch-zoom' : ''
+  })
 }
 function pointerDown(event: PointerEvent) {
   interacted = true
-  clickOrigin = { x: event.clientX, y: event.clientY }
+  if (event.button !== 0 || !event.isPrimary) { clickOrigin = undefined; return }
+  clickOrigin = { x: event.clientX, y: event.clientY, time: performance.now(), target: event.target, id: event.pointerId, touch: event.pointerType === 'touch' || event.pointerType === 'pen', distance: 0, selected: Boolean(getSelection()?.toString()) }
+}
+function pointerMove(event: PointerEvent) {
+  if (clickOrigin && clickOrigin.id === event.pointerId) clickOrigin.distance = Math.max(clickOrigin.distance, Math.hypot(event.clientX - clickOrigin.x, event.clientY - clickOrigin.y))
+  if (clickOrigin && clickOrigin.distance > 8) clearLinkHold()
+}
+function guardMultiTouch(event: TouchEvent) { if (event.touches.length > 1) cancelPointer() }
+function pointerUp(event: PointerEvent) {
+  clearLinkHold()
+  const origin = clickOrigin
+  if (!origin || event.pointerId !== origin.id) return
+  const x = event.clientX - origin.x
+  const y = event.clientY - origin.y
+  const elapsed = performance.now() - origin.time
+  if (Math.max(origin.distance, Math.hypot(x, y)) <= 8 && elapsed < 450) return
+  clickOrigin = undefined
+  suppressClickUntil = performance.now() + 450
+  if (!props.paged || props.swipePaging === false || !origin.touch || origin.selected || event.defaultPrevented ||
+      interactive(origin.target, 'x') || getSelection()?.toString()) return
+  const area = scroller.value!.getBoundingClientRect()
+  const step = swipeStep({ x, y, elapsed, width: area.width, startX: origin.x - area.left })
+  if (step) { event.preventDefault(); turn(step) }
+}
+function cancelPointer() {
+  clearLinkHold()
+  clickOrigin = undefined
+  suppressClickUntil = performance.now() + 450
+}
+function captureClick(event: MouseEvent) {
+  if (performance.now() < suppressClickUntil) { event.preventDefault(); event.stopPropagation() }
 }
 function tapPage(event: MouseEvent) {
-  if (!props.paged || event.defaultPrevented || event.detail !== 1 || interactive(event.target) || getSelection()?.toString()) return
+  const origin = clickOrigin
+  clickOrigin = undefined
+  if (event.defaultPrevented || event.detail !== 1 || interactive(event.target) || getSelection()?.toString() ||
+      !origin || origin.selected || performance.now() - origin.time >= 450 || Math.hypot(event.clientX - origin.x, event.clientY - origin.y) > 8) return
   const area = scroller.value?.getBoundingClientRect()
-  if (!area || !clickOrigin || Math.hypot(event.clientX - clickOrigin.x, event.clientY - clickOrigin.y) > 6) return
-  const x = (event.clientX - area.left) / area.width
-  const y = (event.clientY - area.top) / area.height
-  if (x >= .34 && x <= .66 && y >= .26 && y <= .74) return
-  turn(x < .5 + (y - .5) * .32 ? -1 : 1)
+  if (!area) return
+  const zone = tapZone((event.clientX - area.left) / area.width, (event.clientY - area.top) / area.height)
+  if (zone === 'center') { if (props.mobile) emit('toggleChrome'); return }
+  if (props.paged && props.tapPaging !== false) turn(zone)
 }
 function readerKey(event: KeyboardEvent) {
   interacted = true
@@ -228,6 +277,7 @@ async function render() {
     else if (props.tab.fragment) jump(props.tab.fragment)
     else restore(anchor)
     ready = true
+    syncScrollRegions()
     measure()
     if (edge) { interacted = true; flush(); animatePage(edge === 'last' ? -1 : 1) }
     const imagesInView = Array.from(article.value?.querySelectorAll('img') || [])
@@ -252,10 +302,10 @@ async function render() {
 
 function onLink(event: MouseEvent) {
   const link = (event.target as HTMLElement).closest('a')
-  if (!link) return
+  if (!link || event.defaultPrevented) return
   event.preventDefault()
   const href = link.getAttribute('href') || ''
-  if (/^https?:\/\//i.test(href)) { void Promise.resolve(external(href)).catch(() => emit('error', '无法打开此链接。')); return }
+  if (/^(https?:\/\/|mailto:|tel:)/i.test(href)) { emit('previewLink', href); return }
   const target = localPath(props.tab.path, href)
   if (target && markdown.test(target.path)) emit('navigate', target.path, target.fragment)
   else emit('error', '此链接未指向可打开的 Markdown 文件。')
@@ -267,6 +317,17 @@ function linkTarget(event: MouseEvent) {
   if (link && target && markdown.test(target.path)) return { link, ...target }
 }
 function onLinkPointer(event: PointerEvent) {
+  if (props.mobile && event.pointerType !== 'mouse' && event.isPrimary && event.button === 0 && !getSelection()?.toString()) {
+    const link = (event.target as Element).closest('a')
+    if (link) {
+      clearLinkHold()
+      linkHoldTimer = window.setTimeout(() => {
+        if (getSelection()?.toString()) return
+        previewMobileLink(link)
+      }, 500)
+    }
+    return
+  }
   const target = linkTarget(event)
   if (target) emit('linkPointer', event, target.path, target.fragment, target.link)
 }
@@ -276,8 +337,24 @@ function onLinkDrag(event: DragEvent) {
 function onLinkMenu(event: MouseEvent) {
   const link = (event.target as HTMLElement).closest('a')
   if (!link) return
+  if (getSelection()?.toString()) return
+  const href = link.getAttribute('href') || ''
   const target = localPath(props.tab.path, link.getAttribute('href') || '')
+  if (props.mobile) {
+    event.preventDefault()
+    if (clickOrigin) previewMobileLink(link)
+    return
+  }
+  if (/^(https?:\/\/|mailto:|tel:)/i.test(href)) { event.preventDefault(); emit('previewLink', href); return }
   if (target && markdown.test(target.path)) emit('linkMenu', event, target.path, target.fragment)
+}
+function previewMobileLink(link: HTMLAnchorElement) {
+  const href = link.getAttribute('href') || ''
+  const target = localPath(props.tab.path, href)
+  cancelPointer()
+  if (/^(https?:\/\/|mailto:|tel:)/i.test(href)) emit('previewLink', href)
+  else if (target && markdown.test(target.path)) emit('previewLink', target.path + (target.fragment ? '#' + target.fragment : ''), target.path, target.fragment)
+  else emit('error', '此链接未指向可打开的 Markdown 文件。')
 }
 
 watch(() => props.tab.fragment, id => { if (id && ready) { interacted = true; jump(id); flush() } })
@@ -293,33 +370,39 @@ let resizeObserver: ResizeObserver | undefined
 onMounted(() => {
   void render()
   window.addEventListener('pagehide', flush)
+  window.addEventListener('touchstart', guardMultiTouch, { capture: true, passive: true })
   if (scroller.value) {
     resizeObserver = new ResizeObserver(async () => {
       const view = scroller.value
       if (!view) return
       const previous = position
-      pageHeight.value = Math.max(72, view.clientHeight - 44)
+      pageHeight.value = Math.max(72, view.clientHeight - (props.mobile ? 32 : 44))
       await nextTick()
       if (ready) { paginate(); restore(previous); measure() }
     })
-    pageHeight.value = Math.max(72, scroller.value.clientHeight - 44)
+    pageHeight.value = Math.max(72, scroller.value.clientHeight - (props.mobile ? 32 : 44))
     resizeObserver.observe(scroller.value)
   }
 })
-onBeforeUnmount(() => { effect?.cancel(); flush(); generation++; release(); resizeObserver?.disconnect(); window.removeEventListener('pagehide', flush) })
+onBeforeUnmount(() => { clearLinkHold(); effect?.cancel(); flush(); generation++; release(); resizeObserver?.disconnect(); window.removeEventListener('pagehide', flush); window.removeEventListener('touchstart', guardMultiTouch, true) })
 async function refresh() {
   effect?.cancel()
   if (ready) { interacted = true; flush() }
   await render()
   return !error.value
 }
-defineExpose({ flush, turn, refresh })
+function jumpTo(id: string) { interacted = true; jump(id); flush() }
+watch([titles, active, progress, page, pages, loading], () => emit('status', {
+  headings: titles.value, active: active.value, progress: progress.value, page: page.value + 1, pages: pages.value,
+}))
+function sourcePosition() { return scroller.value ? renderedLocation(scroller.value) : { line: 0, within: 0 } }
+defineExpose({ flush, turn, refresh, jumpTo, sourcePosition })
 </script>
 
 <template>
-  <div class="reader" :class="{ compact, centered, paged }" :style="{ '--doc-width': width + 'px', '--page-height': pageHeight + 'px', '--page-gap': gap + 'px' }">
+  <div class="reader" :class="{ compact, centered, paged }" :style="{ '--doc-width': width + 'px', '--page-height': pageHeight + 'px', '--page-gap': gap + 'px', '--paper-gutter': gutter ? gutter + 'px' : undefined }">
     <div class="reading-column">
-      <div ref="scroller" class="reading-scroll" tabindex="0" @scroll.passive="onScroll" @wheel.passive="interacted = true" @pointerdown="pointerDown" @keydown="readerKey" @click="tapPage" @touchstart.passive="interacted = true">
+      <div ref="scroller" class="reading-scroll" tabindex="0" @scroll.passive="onScroll" @wheel.passive="interacted = true" @pointerdown="pointerDown" @pointermove="pointerMove" @pointerup="pointerUp" @pointercancel="cancelPointer" @keydown="readerKey" @click.capture="captureClick" @click="tapPage" @touchstart.passive="event => { interacted = true; if (event.touches.length > 1) cancelPointer() }">
         <div v-if="loading || error" class="reader-message" role="status">
           <BookOpen :size="26" />
           <p>{{ error || '正在打开文档…' }}</p>

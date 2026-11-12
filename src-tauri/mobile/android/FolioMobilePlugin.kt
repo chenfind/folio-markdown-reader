@@ -43,8 +43,10 @@ class FolioMobilePlugin(private val activity: Activity) : Plugin(activity) {
     }
 
     override fun onStop(activity: AppCompatActivity) {
-        clones.cancel()
+        clones.setForeground(false)
     }
+
+    override fun onResume(activity: AppCompatActivity) { clones.setForeground(true) }
 
     private fun background(invoke: Invoke, action: () -> JSObject) {
         io.execute {
@@ -120,6 +122,14 @@ class FolioMobilePlugin(private val activity: Activity) : Plugin(activity) {
     fun cloneStart(invoke: Invoke) = background(invoke) { clones.clone(invoke.getArgs()) }
 
     @Command
+    fun cloneInfo(invoke: Invoke) {
+        io.execute {
+            try { invoke.resolve(clones.info(invoke.getArgs().getString("path")!!)) }
+            catch (_: Exception) { invoke.reject("无法识别本地克隆来源。") }
+        }
+    }
+
+    @Command
     fun cloneStatus(invoke: Invoke) { invoke.resolve(clones.status()) }
 
     @Command
@@ -135,6 +145,7 @@ class FolioMobilePlugin(private val activity: Activity) : Plugin(activity) {
         require(url.protocol == "https" && url.userInfo == null) { "仅支持 HTTPS 仓库请求。" }
         val connection = url.openConnection() as HttpURLConnection
         try {
+            connection.useCaches = false
             connection.instanceFollowRedirects = false
             connection.connectTimeout = 20_000
             connection.readTimeout = 35_000

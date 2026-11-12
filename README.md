@@ -25,6 +25,15 @@ Open a Markdown file or folder using the toolbar. You can add several folders an
 
 Markdown rendering includes code highlighting, tables, relative document links and local images. External images are not fetched automatically. Pagination tries to preserve content blocks; long blocks can span pages. It is a reading view, not a Markdown editor or a print layout engine.
 
+
+## Phone controls
+
+The phone UI uses a bottom dock and sheets for the library, outline, appearance and tools. Open the document list from the top bar to switch or manage tabs. Sheets support the close button, system Back and dragging the heading downward.
+
+Enable single-page reading in Appearance to swipe left/right between pages. Tap the center to hide/show reading tools. Links, text selection and scrollable tables/code retain their interactions; ordinary tables, short code and static images participate in page turning. Swipe and edge-tap paging have separate switches. Series boundaries stay in the current tab; merging splits retains both panes' documents.
+
+See [mobile interaction rules](docs/mobile-interactions.md) and [project conventions](AGENTS.md).
+
 ## Where are my files?
 
 **Opening a local file or folder does not copy it.** Folio reads the original location without writing to the document. Use the global refresh button after an external update; reopening the app refreshes restored documents.
@@ -33,7 +42,7 @@ On Android, select a **folder** when documents use sibling links or images. A si
 
 A read-only remote connection fetches repository content at a selected revision without creating a Git working copy. It requires a network connection; this mode does not promise offline caching.
 
-**Clone is optional and never automatic.** Windows asks for a destination and uses your installed Git credentials. Android clones into app-private storage using HTTPS and a token when needed. Android cloning stops when the app leaves the foreground; failures/cancellation clean unfinished data, and retry starts a fresh shallow clone. Completed clones remain readable offline. Uninstalling Android Folio or clearing its app data removes these app-managed clones. Clone updates currently require external Git on Windows or a fresh clone on Android; the refresh button rereads files, rather than performing Git pull.
+**Clone is optional and never automatic.** Windows asks for a destination and uses your installed Git credentials. Android clones into app-private storage using HTTPS and a token when needed. Android cloning stops when the app leaves the foreground; failures/cancellation clean unfinished data, and retry starts a fresh shallow clone. Completed clones remain readable offline. Uninstalling Android Folio or clearing its app data removes these app-managed clones. Both online sources and local clones have settings and manual update actions, and global update handles both. Clone updates prepare a fresh shallow clone before replacing the managed copy; local edits may be overwritten. Failure or cancellation preserves the previous copy and document IDs. Ordinary local folders are only reread. Legacy Windows Git folders require explicit adoption before replacement is enabled.
 
 ## Connect a repository
 
@@ -84,3 +93,7 @@ Bug reports should include app version, OS/device, reading mode and a minimal Ma
 See [architecture](docs/architecture.md) and [Android requirements](docs/android-requirements.md) before changing platform behavior. In particular, Android uses in-app splits and must not enable independent windows.
 
 Licensed under [MIT](LICENSE). Third-party libraries retain their own licenses.
+
+## Markdown source
+
+Open the document/tab actions menu on desktop or More on Android to view read-only Markdown source. Source defaults to pagination, with optional scrolling, search, selection and copying. Comparison mode synchronizes source lines and rendered blocks in both directions; mobile portrait stacks the panes and landscape places them side by side. Closing the viewer restores the original reading surface.

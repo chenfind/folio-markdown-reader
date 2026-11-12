@@ -12,6 +12,8 @@ Folio 使用同一份代码维护 Windows 和 Android 版本。共享层负责�
 | src/reader | Markdown 渲染、资源解析、阅读位置、分页和正文样式 |
 | src/app | 会话、文档库、阅读设置、分屏策略和独立窗口流程 |
 | src/platform | 浏览器与原生平台能力、文件服务、仓库接口、外部链接和窗口实现 |
+| src/app/components/MobileReaderUI.vue | 手机独立触屏外壳、底部操作与文档列表，复用共享会话 |
+| src/reader/interaction.ts | 控件与实际滚动识别、阅读手势判定 |
 | src/App.vue | 组装界面、菜单、拖拽及共享交互 |
 | src-tauri/src/repositories.rs | GitHub / GitLab 读取协议与提交解析 |
 | src-tauri/src/repository_url.rs | 仓库地址校验 |
@@ -62,3 +64,8 @@ HTTP 的查询和状态处理共享。Windows 继续使用 native-tls，Android 
 - cargo check --manifest-path src-tauri/Cargo.toml 检查本机 Rust 实现。
 - 阅读行为回归应覆盖打开、相对链接、刷新、分页、跨篇、设置、分屏，以及 Windows 的弹出和移回。
 - Android 规则的单元测试不能替代 APK 和真机验证。
+
+## 管理副本和源码查看（0.2.3）
+RepositoryAccess 新增 inspectClone/updateClone，并由平台层执行；Windows 额外支持显式接管旧 Git 文件夹。管理归属以原生记录为准，不能仅凭前端 sourceKind 标签认定可覆盖。Windows 在应用数据目录登记受管路径，使用同级临时目录、备份和持久事务记录完成切换，中断后恢复旧副本；Android 以文档授权记录指向快照目录，稳定 saf ID 不随快照变化。在线来源继续沿用 remote:/ ID 和按提交读取方式。克隆配置不保存令牌。
+
+SourceViewer 是独立的应用内只读界面，复用文档读取和 Markdown 渲染，不改变阅读会话。解析器在块上写入 data-source-start/end（零基行范围，结束不含）；sourcePosition 提供范围插值和可见块定位。源码和对照正文使用明确的用户输入主导方向，避免同步滚动反馈环。关闭时释放资源 URL、观察器和事件监听。

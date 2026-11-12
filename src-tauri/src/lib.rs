@@ -18,6 +18,9 @@ pub fn run() {
             repositories::remote_github_tree,
             repositories::remote_read,
             platform::remote_clone,
+            platform::local_clone_info,
+            platform::local_clone_adopt,
+            platform::local_clone_update,
             platform::runtime_platform,
             platform::mobile_request,
         ])

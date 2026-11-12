@@ -7,6 +7,14 @@ export interface Heading { id: string; text: string; level: number }
 const mediaTypes: Record<string, string> = { png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg', gif: 'image/gif', webp: 'image/webp', svg: 'image/svg+xml', avif: 'image/avif', bmp: 'image/bmp' }
 const md = new MarkdownIt({ html: false, linkify: true, highlight: (code, language) =>
   hljs.getLanguage(language) ? hljs.highlight(code, { language, ignoreIllegals: true }).value : '' })
+for (const type of ['fence', 'code_block']) {
+  const original = md.renderer.rules[type]!
+  md.renderer.rules[type] = (tokens, index, options, env, renderer) => {
+    const range = tokens[index]?.map
+    const result = original(tokens, index, options, env, renderer)
+    return range ? result.replace('<pre', `<pre data-source-start="${range[0]}" data-source-end="${range[1]}"`) : result
+  }
+}
 
 /** The caller owns and revokes returned object URLs, including stale render results. */
 export const renderMarkdown = async (text: string, path: string, bytes: (path: string) => Promise<Uint8Array>) => {
@@ -18,6 +26,10 @@ export const renderMarkdown = async (text: string, path: string, bytes: (path: s
   const resources = new Map<string, Promise<string>>()
   const newUrls: string[] = []
   tokens.forEach((token, i) => {
+    if (token.map && token.nesting === 1) {
+      token.attrSet('data-source-start', String(token.map[0]))
+      token.attrSet('data-source-end', String(token.map[1]))
+    }
     if (token.type === 'heading_open') {
       const title = tokens[i + 1]?.children?.map(child => child.content).join('') || '章节'
       const id = slugger.slug(title)
@@ -25,6 +37,11 @@ export const renderMarkdown = async (text: string, path: string, bytes: (path: s
       headings.push({ id, text: title, level: Number(token.tag[1]) })
     }
     token.children?.forEach(child => {
+      if (child.type === 'link_open') {
+        const href = String(child.attrGet('href') || '')
+        const target = localPath(path, href)
+        child.attrSet('title', target ? target.path + (target.fragment ? '#' + target.fragment : '') : href)
+      }
       if (child.type !== 'image') return
       const src = child.attrGet('src') || ''
       const resolved = localPath(path, String(src))
