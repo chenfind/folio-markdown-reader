@@ -1,0 +1,195 @@
+src/app/components/ReadingSettings.vue
+  s_2931c367e7d738::t_9bc8cae7cbaaf0 59
+  s_2931c367e7d738::t_2863237637ee86 2,4-5,7-9,12-17,19-37,39-41,44-45,47-54,56,58,60-70
+  s_b65b04fae018e8::t_5aa9c25e44d3e6 38
+src-tauri/Cargo.toml
+  s_b65b04fae018e8::t_a5f0802da74d2a 3
+docs/architecture.md
+  s_b65b04fae018e8::t_72179ab16464a7 15-16,67-71
+README.md
+  s_b65b04fae018e8::t_72179ab16464a7 28-36,45,96-99
+README.zh-CN.md
+  s_b65b04fae018e8::t_72179ab16464a7 23-35,46
+src-tauri/mobile/android/FolioMobilePlugin.kt
+  s_b65b04fae018e8::t_611dd336d57eb8 125-131
+  s_b65b04fae018e8::t_78f43b14a618c9 148
+  s_b65b04fae018e8::t_626f67d852f148 46,49
+  s_b16dc120361d86::t_17105238ac2813 50,124
+src/reader/sourcePosition.ts
+  s_b65b04fae018e8::t_6ee4765cf8dc0a 1-19
+src/app/readerRegistry.ts
+  s_b65b04fae018e8::t_6ee4765cf8dc0a 14
+  s_2931c367e7d738::t_b9907a9f505580 1-8,13
+src/reader/Reader.vue
+  s_2931c367e7d738::t_d75a88656d91c6 86-89,91,99-100,102-103,111,373,379,383,405
+  s_2931c367e7d738::t_9f1225e54e5c08 6-7,14,31,41,81-85,90,92,96,98,104,106-110,112-113,115-120,122-126,129-131,134-137,280,305,358,394-397,403
+  s_b65b04fae018e8::t_78f43b14a618c9 10,15,308,340,343-344,346-347
+  s_b65b04fae018e8::t_6ee4765cf8dc0a 5,398-399
+  s_b65b04fae018e8::t_2635ca0e3af106 341,348
+  s_b65b04fae018e8::t_972a97d7712d7e 32-33,101,105,121,320-324,326-330,345,351-357,387
+  s_b65b04fae018e8::t_d2619fcef414c8 325
+  s_b65b04fae018e8::t_1d85ad8df27c6c 30,97,114,132
+src/reader/markdown.ts
+  s_b65b04fae018e8::t_6ee4765cf8dc0a 10-17,29-32
+  s_b65b04fae018e8::t_78f43b14a618c9 40,42-44
+  s_b65b04fae018e8::t_eeb1dc2e334069 41
+tests/source-position.test.ts
+  s_b65b04fae018e8::t_d6b56e482a0c5c 1-19
+AGENTS.md
+  s_2931c367e7d738::t_f652ba8e5cc945 1-33
+src/app/useReadingSettings.ts
+  s_2931c367e7d738::t_9f1225e54e5c08 10-12
+  s_b65b04fae018e8::t_5aa9c25e44d3e6 13,20
+  s_b65b04fae018e8::t_a6fb0023630074 16,22
+tests/reader-gestures.test.ts
+  s_2931c367e7d738::t_bbf5e2b222e471 1-20
+src/app/components/SettingSwitch.vue
+  s_2931c367e7d738::t_2863237637ee86 1-19
+docs/mobile-interactions.md
+  s_b65b04fae018e8::t_72179ab16464a7 1-63
+src/repositories/remote.ts
+  s_b65b04fae018e8::t_8dfde4e59e1212 24,30-31
+src-tauri/src/platform/mod.rs
+  s_b65b04fae018e8::t_d07bb107fbc0a7 3-4,14-27,31-39,43-57
+  s_b65b04fae018e8::t_690b26ac50e8ab 28,41-42,58-59
+  s_b65b04fae018e8::t_6f97575a7469c5 29-30,40
+  s_b65b04fae018e8::t_9b52453b2b8b93 65-66,71,75,92
+src-tauri/src/lib.rs
+  s_b65b04fae018e8::t_690b26ac50e8ab 21,23
+  s_b65b04fae018e8::t_6f97575a7469c5 22
+src-tauri/src/platform/managed_clones.rs
+  s_b65b04fae018e8::t_d07bb107fbc0a7 1-474
+src/repositories/RemoteDialog.vue
+  s_b65b04fae018e8::t_5cc77b93b41dcc 51
+  s_b65b04fae018e8::t_b49b10afcf25f8 98,101
+  s_b65b04fae018e8::t_a5f0802da74d2a 86
+  s_b65b04fae018e8::t_e1babfda865e71 2-3,5,9,11-16,18-27,52,66-67,72,74,77-85,87,94,108,127-131
+src/App.vue
+  s_b65b04fae018e8::t_a5f0802da74d2a 125
+  s_b65b04fae018e8::t_a6fb0023630074 636
+  s_b65b04fae018e8::t_8dfde4e59e1212 2,10,18-22,24,47-75,78,95,106-115,117-124,126-142,144-175,185,202,208-210,212-213,215,217-220,232,241,258,273,276,288-292,301,341,410,422,433,442,466,470-473,483,490,504,518,522-523,538-542,544-558,562,564,578,592,594,605,607,609,612,640-650,655,657-658
+  s_b65b04fae018e8::t_72179ab16464a7 514
+  s_b65b04fae018e8::t_b49b10afcf25f8 96-105,116,143,216,420,469,481,637-639
+  s_b65b04fae018e8::t_5cc77b93b41dcc 211,214,236
+  s_b65b04fae018e8::t_9a4e09ef9fa38b 13-15,80-93,430,458,543
+tests/mobile-reader.e2e.cjs
+  s_b65b04fae018e8::t_06abfcd924f951 53,79-81,187-196,198-202,318-322,324-370,417,429,432,443,462-463
+  s_b65b04fae018e8::t_8754ebaa1864d8 62,75-76,84,373,445-460
+  s_b65b04fae018e8::t_c33955082c7a00 407
+  s_b65b04fae018e8::t_5079deb19bad3b 381
+  s_b65b04fae018e8::t_0d32f4a73c6ef3 379
+  s_b65b04fae018e8::t_b0faeb24500804 1-52,54-61,63-72,82-83,90-186,203-317,464-470
+  s_b65b04fae018e8::t_022d02d10a6ad1 386-391
+  s_b65b04fae018e8::t_269454d7f4e98b 394-398,421-423
+  s_b65b04fae018e8::t_68544fce55bf34 197
+  s_b65b04fae018e8::t_a83cad590eeb46 323,427
+  s_b65b04fae018e8::t_1fb969b534ebdc 73-74,77-78,85-89,371-372,374-378,380,382-385,392-393,399-406,408-416,418-420,424-426,428,430-431,433-442,444,461
+src/app/mobile.css
+  s_b65b04fae018e8::t_47569cde06182a 91
+  s_b65b04fae018e8::t_9a4e09ef9fa38b 1-90,92-101
+src/app/components/MobileReaderUI.vue
+  s_b65b04fae018e8::t_9a4e09ef9fa38b 1-71
+src/platform/browser.ts
+  s_b65b04fae018e8::t_9b52453b2b8b93 55
+src-tauri/mobile/android/DocumentAccess.kt
+  s_b65b04fae018e8::t_611dd336d57eb8 46-47,51-53
+  s_b65b04fae018e8::t_9b8f27edb50215 56-58
+  s_b16dc120361d86::t_8ade6d3c12a9aa 54-55
+src-tauri/src/repositories.rs
+  s_b65b04fae018e8::t_78f43b14a618c9 86,172
+src/documents/FileTree.vue
+  s_b65b04fae018e8::t_b49b10afcf25f8 2,6,20,22,25
+src/repositories/types.ts
+  s_b65b04fae018e8::t_6f97575a7469c5 12,22
+  s_b65b04fae018e8::t_9b52453b2b8b93 13,21,23
+docs/android-requirements.md
+  s_b65b04fae018e8::t_72179ab16464a7 60-70
+.gitignore
+  s_2931c367e7d738::t_df4f3c4e75b37c 37-39
+src/style.css
+  s_b65b04fae018e8::t_f4cf7c61232dd8 47-51
+  s_b65b04fae018e8::t_5aa9c25e44d3e6 8
+src/app/components/ReaderDialog.vue
+  s_b65b04fae018e8::t_5aa9c25e44d3e6 1-7,13-25,27-42
+  s_b65b04fae018e8::t_2635ca0e3af106 8-12,26
+src/documents/types.ts
+  s_b65b04fae018e8::t_6f97575a7469c5 1
+index.html
+  s_2931c367e7d738::t_d75a88656d91c6 5,7
+src-tauri/tauri.conf.json
+  s_b65b04fae018e8::t_a5f0802da74d2a 4
+src/platform/windows.ts
+  s_b65b04fae018e8::t_9b52453b2b8b93 5,44,47
+src-tauri/src/platform/windows_git.rs
+  s_b65b04fae018e8::t_e8c21bdd33c1da 2
+  s_b65b04fae018e8::t_9581d81d60f98c 9-10,14-15
+  s_b65b04fae018e8::t_d07bb107fbc0a7 40-48,69-85
+package.json
+  s_b65b04fae018e8::t_b0faeb24500804 15-16
+  s_b65b04fae018e8::t_a5f0802da74d2a 4
+src-tauri/mobile/android/CloneManager.kt
+  s_b65b04fae018e8::t_9b8f27edb50215 43-45,80-82
+  s_b65b04fae018e8::t_626f67d852f148 27,32,84-86,95,156-159
+  s_b65b04fae018e8::t_611dd336d57eb8 66-79,83,87-92,105,107-108,123-124,149-150,154-155,160-161,163,171,174,180-190
+  s_b16dc120361d86::t_62fce079bfd699 191
+src/platform/tauri.ts
+  s_b65b04fae018e8::t_9b52453b2b8b93 3,14,16
+  s_b65b04fae018e8::t_6f97575a7469c5 15
+src/reader/SourceViewer.vue
+  s_b65b04fae018e8::t_e8c21bdd33c1da 16,64-66,143,157
+  s_b65b04fae018e8::t_c87072d9a9b4d9 101
+  s_b65b04fae018e8::t_a6fb0023630074 10-11,14,90-91,168
+  s_b65b04fae018e8::t_6f97575a7469c5 104
+  s_b65b04fae018e8::t_47569cde06182a 159
+  s_b65b04fae018e8::t_6ee4765cf8dc0a 1-9,12-13,15,19-63,74-89,92-100,102-103,105-109,113-127,129-130,132-142,144-156,158,160-167,169-176,179-180
+  s_b65b04fae018e8::t_b494f6c6e74839 17-18,67-73,110-112,128,131,177-178
+src/app/components/MobileSheet.vue
+  s_2931c367e7d738::t_2863237637ee86 1-6,25-28,30-39,43-46
+  s_2931c367e7d738::t_9bc8cae7cbaaf0 7-24,29,40-42
+src/reader/interaction.ts
+  s_2931c367e7d738::t_bbf5e2b222e471 1-29
+src/platform/android.ts
+  s_b65b04fae018e8::t_9b52453b2b8b93 4,26-31,42
+docs/android-build.md
+  s_b65b04fae018e8::t_341e4cc2515af7 16,20
+  s_b65b04fae018e8::t_8a466fb94a0a75 37-38
+  s_b16dc120361d86::t_77c6463794252c 21
+package-lock.json
+  s_b65b04fae018e8::t_213fc15deec4e6 3,9
+src-tauri/Cargo.lock
+  s_b65b04fae018e8::t_58f1ae40bad12a 972
+src/reader/reader.css
+  s_2931c367e7d738::t_1e4792a44db734 62-64
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "88d96d1215bb277450b132423f62623a6b4c57c5",
+  "prompts": {},
+  "sessions": {
+    "s_2931c367e7d738": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1c906-b4f0-7602-b133-09c1fb577d9a",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "chenfind <75835354+chenfind@users.noreply.github.com>"
+    },
+    "s_b16dc120361d86": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1bf6c-18d7-7280-8109-bc463b33ea2d",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "chenfind <75835354+chenfind@users.noreply.github.com>"
+    },
+    "s_b65b04fae018e8": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1c9bf-0b5a-7011-befa-b002bb85f865",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "chenfind <75835354+chenfind@users.noreply.github.com>"
+    }
+  }
+}
